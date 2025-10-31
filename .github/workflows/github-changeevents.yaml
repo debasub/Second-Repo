@@ -3,12 +3,12 @@ on:
     branches:
       - master
       - main
-  pull_request:
-    branches:
-      - master
-      - main
-    types:
-      - closed
+  # pull_request:
+  #   branches:
+  #     - master
+  #     - main
+  #   types:
+  #     - closed
 
 jobs:
   send-pagerduty-change-event:
