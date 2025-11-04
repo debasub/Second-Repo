@@ -3,24 +3,34 @@ on:
     branches:
       - master
       - main
-  # pull_request:
-  #   branches:
-  #     - master
-  #     - main
-  #   types:
-  #     - closed
+  pull_request:
+    branches:
+      - master
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
 
 jobs:
+
+  define-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Define Colors
+        id: colors
+        run: |
+          echo 'colors=["red", "green", "blue"]' >> "$GITHUB_OUTPUT"
+
   send-pagerduty-change-event:
+    if: ${{ (github.ref_name == 'main') || (github.ref_name == 'master') }}
     runs-on: ubuntu-latest
     name: Sending PagerDuty Change Event
     strategy:
       matrix:
         # *** SIMPLIFIED MATRIX ***
-        # The matrix now just holds the exact secret name for each run.
-        # secret_name:
-        #   - PAGERDUTY_CHANGE_INTEGRATION_KEY # Run 1
-        #   - PAGERDUTY_KEY_SECOND # Run 2
+        # The matrix now just holds the exact secret name for each run.        
         secret_name: ${{ fromJSON('["PAGERDUTY_CHANGE_INTEGRATION_KEY", "PAGERDUTY_KEY_SECOND"]') }}
         
     steps:
