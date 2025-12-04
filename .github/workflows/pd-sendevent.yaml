@@ -1,0 +1,38 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Do prod deployment
+        id: deploy_step
+        run: |
+          echo "Running prod deployment"
+      
+
+  deploy-prod-eu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Do EU deployment
+        id: deploy_eu_step
+        run: |
+          echo "Running EU deployment"     
+
+  send-pagerduty-event:
+    needs: 
+      - deploy-prod
+      - deploy-prod-eu
+    runs-on: ubuntu-latest
+    if: ${{ always() && (
+        needs.deploy-prod.result == 'success' ||
+        needs.deploy-prod-eu.result == 'success'
+      ) }}
+    steps:
+      - name: Send PagerDuty Change Event
+        run: |
+          echo "Sending PagerDuty event because at least one deploy ran"
+          # your pagerduty API call here
