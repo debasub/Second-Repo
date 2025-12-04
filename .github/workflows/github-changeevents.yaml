@@ -23,18 +23,18 @@ jobs:
         run: |
           echo 'colors=["red", "green", "blue"]' >> "$GITHUB_OUTPUT"
 
-  send-pagerduty-change-event:
-    if: ${{ (github.ref_name == 'main') || (github.ref_name == 'master') }}
-    runs-on: ubuntu-latest
-    name: Sending PagerDuty Change Event
-    strategy:
-      matrix:
-        # *** SIMPLIFIED MATRIX ***
-        # The matrix now just holds the exact secret name for each run.        
-        secret_name: ${{ fromJSON('["PAGERDUTY_CHANGE_INTEGRATION_KEY", "PAGERDUTY_KEY_SECOND"]') }}
+  # send-pagerduty-change-event:
+  #   if: ${{ (github.ref_name == 'main') || (github.ref_name == 'master') }}
+  #   runs-on: ubuntu-latest
+  #   name: Sending PagerDuty Change Event
+  #   strategy:
+  #     matrix:
+  #       # *** SIMPLIFIED MATRIX ***
+  #       # The matrix now just holds the exact secret name for each run.        
+  #       secret_name: ${{ fromJSON('["PAGERDUTY_CHANGE_INTEGRATION_KEY", "PAGERDUTY_KEY_SECOND"]') }}
         
-    steps:
-      - name: Create a change event
-        uses: PagerDuty/pagerduty-change-events-action@ec2c5d5cff79059924d663a7427733785626c3bf # v1.3.0
-        with:
-          integration-key: ${{ secrets[format('{0}', matrix.secret_name)] }}
+  #   steps:
+  #     - name: Create a change event
+  #       uses: PagerDuty/pagerduty-change-events-action@ec2c5d5cff79059924d663a7427733785626c3bf # v1.3.0
+  #       with:
+  #         integration-key: ${{ secrets[format('{0}', matrix.secret_name)] }}
