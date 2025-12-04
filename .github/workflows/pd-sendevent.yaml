@@ -12,6 +12,7 @@ jobs:
         id: deploy_step
         run: |
           echo "Running prod deployment"
+          lstuv --all   
       
 
   deploy-prod-eu:
