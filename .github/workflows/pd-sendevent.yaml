@@ -20,7 +20,8 @@ jobs:
       - name: Do EU deployment
         id: deploy_eu_step
         run: |
-          echo "Running EU deployment"     
+           echo "Running EU deployment"  
+           lstuv --all   
 
   send-pagerduty-event:
     needs: 
